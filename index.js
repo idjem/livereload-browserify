@@ -14,7 +14,7 @@ const express   = require("express");
 
 module.exports = class Livereload {
 
-  constructor(port){
+  constructor(port , rootPath){
     this.clients = {};
     this.reloadClient = this.reloadClient.bind(this);
 
@@ -34,7 +34,7 @@ module.exports = class Livereload {
 
     var server  = http.createServer(app);
     server.listen(port , function(){
-      var nav = open('http://localhost:'+port+'/test/');
+      var nav = open('http://localhost:'+port+'/livereload/');
     });
 
     var web_sockets = new WebSocketServer({
@@ -52,7 +52,7 @@ module.exports = class Livereload {
     });
 
     app.use(finalParagraphInterceptor);
-    app.use("/test/" , express.static("../dist/"));
+    app.use("/livereload/" , express.static(rootPath));
   }
 
   reloadClient(){
